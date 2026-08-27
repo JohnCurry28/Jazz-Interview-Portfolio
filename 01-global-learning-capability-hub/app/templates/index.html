@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Global Learning Capability Hub</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">GL</div>
+      <div>
+        <strong>Global Learning Capability Hub</strong>
+        <span>Synthetic enterprise reference implementation</span>
+      </div>
+    </div>
+    <div class="env-pill">DEMO ENVIRONMENT</div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <button class="nav active" data-view="executive">Overview</button>
+      <button class="nav" data-view="learner">Learner Experience</button>
+      <button class="nav" data-view="manager">Manager Readiness</button>
+      <button class="nav" data-view="governance">Governance</button>
+      <button class="nav" data-view="integrations">Integration Health</button>
+      <a class="nav api-link" href="/docs" target="_blank">API Explorer ↗</a>
+      <div class="side-note">
+        <strong>Design principle</strong>
+        <p>Completion is an output. Capability and adoption are outcomes.</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section id="executive" class="view active-view">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">GLOBAL CAPABILITY PRODUCT</span>
+            <h1>Learning as an enterprise capability system.</h1>
+            <p>Role-based learning, measurable capability, adoption analytics, reusable assets, and governed integrations in one reference architecture.</p>
+          </div>
+          <div class="hero-callout">
+            <span>Reference architecture</span>
+            <strong>Role → Capability → Learning → Evidence → Adoption</strong>
+          </div>
+        </div>
+        <div id="kpi-grid" class="kpi-grid"></div>
+        <div class="two-col">
+          <article class="panel">
+            <div class="panel-head"><div><span class="eyebrow">CAPABILITY MODEL</span><h2>How the product creates value</h2></div></div>
+            <div class="flow">
+              <div class="flow-step"><span>01</span><strong>Role Profile</strong><small>Who needs what?</small></div>
+              <div class="arrow">→</div>
+              <div class="flow-step"><span>02</span><strong>Capability</strong><small>What must improve?</small></div>
+              <div class="arrow">→</div>
+              <div class="flow-step"><span>03</span><strong>Learning</strong><small>What builds it?</small></div>
+              <div class="arrow">→</div>
+              <div class="flow-step"><span>04</span><strong>Evidence</strong><small>Can they do it?</small></div>
+              <div class="arrow">→</div>
+              <div class="flow-step"><span>05</span><strong>Adoption</strong><small>Did behavior change?</small></div>
+            </div>
+          </article>
+          <article class="panel architecture-panel">
+            <div class="panel-head"><div><span class="eyebrow">ARCHITECTURE</span><h2>Enterprise boundaries</h2></div></div>
+            <div class="arch-grid">
+              <div><strong>Experience</strong><span>LMS / LXP / onboarding</span></div>
+              <div><strong>Capability</strong><span>Roles / skills / pathways</span></div>
+              <div><strong>Integration</strong><span>APIs / events / identity</span></div>
+              <div><strong>Data</strong><span>Learning / CRM / analytics</span></div>
+              <div><strong>Governance</strong><span>Versions / approvals / reuse</span></div>
+              <div><strong>AI-ready</strong><span>RAG / coaching / evaluation</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="learner" class="view">
+        <div class="section-head">
+          <div><span class="eyebrow">PERSONALIZED EXPERIENCE</span><h1>Role-based capability journey</h1></div>
+          <label class="select-wrap">Demo persona <select id="user-select"></select></label>
+        </div>
+        <div id="learner-profile" class="profile-card"></div>
+        <div class="two-col">
+          <article class="panel"><div class="panel-head"><div><h2>Capability readiness</h2><span>Mastery evidence mapped to role expectations</span></div></div><div id="capability-list"></div></article>
+          <article class="panel"><div class="panel-head"><div><h2>Learning path</h2><span>Prioritized by role and current state</span></div></div><div id="learning-path"></div></article>
+        </div>
+      </section>
+
+      <section id="manager" class="view">
+        <div class="section-head"><div><span class="eyebrow">MANAGER EXPERIENCE</span><h1>Readiness, mastery, and adoption</h1><p>Identify where completion is high but behavior change still needs intervention.</p></div></div>
+        <article class="panel"><div class="panel-head"><div><h2>Team capability signal</h2><span>Sorted by adoption risk</span></div></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Role</th><th>Onboarding</th><th>Mastery</th><th>Adoption</th><th>Risk</th></tr></thead><tbody id="manager-table"></tbody></table></div></article>
+      </section>
+
+      <section id="governance" class="view">
+        <div class="section-head"><div><span class="eyebrow">PLATFORM GOVERNANCE</span><h1>Reusable, versioned learning assets</h1><p>Treat content as governed product assets rather than disconnected course files.</p></div></div>
+        <article class="panel"><div class="table-wrap"><table><thead><tr><th>Asset</th><th>Type</th><th>Capability</th><th>Version</th><th>Status</th><th>Owner</th><th>Reusable</th></tr></thead><tbody id="governance-table"></tbody></table></div></article>
+      </section>
+
+      <section id="integrations" class="view">
+        <div class="section-head"><div><span class="eyebrow">INTEGRATION OPERATIONS</span><h1>Learning events across the ecosystem</h1><p>A visible event trail makes integrations observable and easier to govern.</p></div></div>
+        <div class="system-strip"><span>HRIS / Identity</span><b>→</b><span>Learning Hub</span><b>↔</b><span>LMS / Content</span><b>↔</b><span>CRM</span><b>→</b><span>Enterprise Data</span><b>→</b><span>Analytics</span></div>
+        <article class="panel"><div class="table-wrap"><table><thead><tr><th>Event</th><th>Source</th><th>Destination</th><th>Status</th><th>Time</th><th>Correlation</th></tr></thead><tbody id="events-table"></tbody></table></div></article>
+      </section>
+    </main>
+  </div>
+<script src="/static/app.js"></script>
+</body>
+</html>
