@@ -20,6 +20,7 @@ The portfolio focuses on the technical questions that sit underneath modern ente
 - How should learning assets be versioned, governed, reused, reviewed, and retired?
 - Where should AI and RAG fit into the architecture?
 - How should enterprise AI be grounded, evaluated, authorized, and monitored?
+- How should unsupported answers, prompt injection, and sensitive-data boundaries be handled?
 - How do technical leads make build-vs-buy decisions?
 - How do product roadmaps, technical debt, dependencies, SLOs, and vendor constraints become visible?
 
@@ -113,57 +114,63 @@ Core model:
 Role → Capability → Learning → Evidence → Adoption
 ```
 
-See:
-
-`01-global-learning-capability-hub/README.md`
-
-for the complete technical documentation.
+See `01-global-learning-capability-hub/README.md` for complete technical documentation.
 
 ---
 
-### 02 — AI Performance Coach / Enterprise RAG
+### 02 — Enterprise AI Performance Coach / RAG
 
-**Status:** Planned
+**Status:** Implemented MVP
 
-Purpose: demonstrate enterprise AI-enabled performance support using approved knowledge sources rather than an unrestricted chatbot.
+A working FastAPI enterprise performance-support reference implementation demonstrating:
 
-Planned capabilities:
-
-- role-aware retrieval
-- approved-source RAG
-- citations
-- confidence / support indicators
+- role-aware knowledge access
+- authorization before retrieval
+- approved-source grounding
+- versioned citations
+- transparent retrieval relevance
+- explicit evidence threshold
 - unsupported-answer refusal
-- source filtering
-- authorization-aware retrieval boundaries
+- prompt-injection blocking
+- sensitive-data request blocking
+- answered / refused / blocked response states
+- deterministic grounded synthesis
+- provider-independent architecture
 - audit logging
-- evaluation datasets
-- hallucination testing
-- prompt-injection testing
-- human-escalation path
+- human-escalation concepts
+- AI evaluation strategy
+- automated safety and behavior regression tests
 
-Target architecture:
+Core control flow:
 
 ```text
-User
-  ↓
-Identity / Role Context
-  ↓
-API
-  ↓
-Orchestrator
-  ├── Retrieval Tool
-  ├── Learning Tool
-  └── Capability Tool
-        ↓
-Validation / Policy Layer
-        ↓
-LLM
-        ↓
-Grounded Response
-        ↓
-Evaluation / Logging
+User / Role
+    ↓
+Guardrails
+    ↓
+Authorized Knowledge
+    ↓
+Retrieval
+    ↓
+Evidence Threshold
+    ├── insufficient → REFUSE
+    └── sufficient
+            ↓
+      Grounded Synthesis
+            ↓
+   Citations + Next Action
+            ↓
+         Audit Event
 ```
+
+The MVP deliberately runs without an external LLM credential so the interview behavior is deterministic and portable. A production model/provider can be introduced behind the provider boundary without moving authorization, policy, grounding, or audit controls into the model itself.
+
+See:
+
+- `02-ai-performance-coach/README.md`
+- `02-ai-performance-coach/ARCHITECTURE.md`
+- `02-ai-performance-coach/EVALUATION.md`
+- `02-ai-performance-coach/DEMO_WALKTHROUGH.md`
 
 ---
 
@@ -264,24 +271,41 @@ Jazz-Interview-Portfolio/
 ├── README.md
 ├── .gitignore
 │
-└── 01-global-learning-capability-hub/
+├── 01-global-learning-capability-hub/
+│   ├── app/
+│   ├── tests/
+│   ├── ARCHITECTURE.md
+│   ├── DEMO_WALKTHROUGH.md
+│   ├── README.md
+│   ├── pyproject.toml
+│   └── requirements.txt
+│
+└── 02-ai-performance-coach/
     ├── app/
     │   ├── __init__.py
-    │   ├── db.py
     │   ├── main.py
-    │   ├── static/
-    │   │   ├── app.js
-    │   │   └── styles.css
-    │   └── templates/
+    │   ├── models.py
+    │   ├── knowledge.py
+    │   ├── retrieval.py
+    │   ├── guardrails.py
+    │   ├── service.py
+    │   ├── audit.py
+    │   └── static/
     │       └── index.html
     │
+    ├── data/
+    │   └── knowledge/
+    │       ├── commercial_campaign_playbook.json
+    │       ├── crm_workflow_guide.json
+    │       ├── manager_operating_guide.json
+    │       └── ai_responsible_use.json
+    │
     ├── tests/
-    │   ├── conftest.py
     │   └── test_api.py
     │
-    ├── .gitignore
     ├── ARCHITECTURE.md
     ├── DEMO_WALKTHROUGH.md
+    ├── EVALUATION.md
     ├── README.md
     ├── pyproject.toml
     └── requirements.txt
@@ -329,14 +353,15 @@ Across the portfolio, the projects are intended to demonstrate competence in:
 ### AI / RAG
 
 - retrieval grounding
-- tool orchestration
+- approved-source boundaries
 - role-aware context
-- model evaluation
+- model/provider abstraction
 - refusal behavior
 - citations
 - prompt-injection testing
 - auditability
 - human review
+- evaluation design
 
 ### Governance
 
@@ -362,8 +387,6 @@ Across the portfolio, the projects are intended to demonstrate competence in:
 
 ## 6. Engineering Principles
 
-The portfolio follows several principles.
-
 ### Model the business problem before choosing the platform
 
 Technology should follow the capability and workflow requirements rather than forcing every problem into one system.
@@ -375,6 +398,14 @@ Course completion is useful operational data, but capability, adoption, performa
 ### Systems should have explicit boundaries
 
 HRIS, LMS, CRM, content systems, analytics, and AI services should not be treated as one undifferentiated platform.
+
+### Authorization should exist outside the model
+
+AI instructions are not an access-control mechanism. Restricted content should be filtered before retrieval and model context construction.
+
+### Refusal is a valid product behavior
+
+If approved evidence is insufficient, the system should abstain rather than generate a plausible unsupported answer.
 
 ### APIs and events should be governed contracts
 
@@ -444,7 +475,7 @@ The README inside each demo documents its specific production-hardening path.
 
 ## 9. Testing and Evaluation Standard
 
-Every implemented module should include tests appropriate to its architecture.
+Every implemented module includes tests appropriate to its architecture.
 
 For deterministic applications, this includes:
 
@@ -455,21 +486,18 @@ For deterministic applications, this includes:
 - failure-path tests
 - integration-contract tests where applicable
 
-For AI / RAG applications, this will additionally include:
+For AI / RAG applications, this additionally includes or plans for:
 
-- retrieval hit rate
-- recall@K
-- precision@K
-- filtering accuracy
-- no-result behavior
-- answer correctness
-- faithfulness
-- citation accuracy
-- completeness
-- conflict handling
-- unsupported-answer refusal accuracy
+- retrieval relevance
 - authorization-boundary tests
+- groundedness
+- citation accuracy
+- unsupported-answer refusal accuracy
 - prompt-injection resistance
+- sensitive-data handling
+- conflict handling
+- knowledge freshness
+- continuous regression evaluation
 
 The goal is to demonstrate that AI evaluation is part of engineering, not merely a demo afterthought.
 
@@ -477,7 +505,7 @@ The goal is to demonstrate that AI evaluation is part of engineering, not merely
 
 ## 10. README Documentation Standard
 
-Each project README is intentionally detailed and production-style.
+Each project README is intentionally detailed and production-style, following the same standard used for the NASDAQ Agent V2 documentation.
 
 Every implemented demo should document:
 
@@ -515,54 +543,39 @@ The intention is for the repository to be understandable to both a hiring manage
 
 ---
 
-## 11. Running the Current Demo
+## 11. Running the Implemented Demos
 
-From the repository root:
+### Demo 01
 
 ```bash
 cd 01-global-learning-capability-hub
 python -m venv .venv
-```
-
-Activate the environment and install dependencies:
-
-```bash
 pip install -r requirements.txt
-```
-
-Run:
-
-```bash
 uvicorn app.main:app --reload
 ```
 
-Open:
-
-```text
-http://127.0.0.1:8000
-```
-
-Swagger:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-Tests:
+### Demo 02
 
 ```bash
-pytest -q
+cd 02-ai-performance-coach
+python -m venv .venv
+pip install -r requirements.txt
+uvicorn app.main:app --reload
 ```
 
-For full setup, architecture, API, troubleshooting, testing, and interview guidance, use the README inside `01-global-learning-capability-hub/`.
+For either demo:
+
+- App: `http://127.0.0.1:8000`
+- Swagger: `http://127.0.0.1:8000/docs`
+- Tests: `pytest -q`
+
+Use each demo's README for complete setup, architecture, API, testing, troubleshooting, evaluation, and interview guidance.
 
 ---
 
 ## 12. Portfolio Development Approach
 
 The remaining modules will be added incrementally rather than built as disconnected proof-of-concepts.
-
-The intended evolution is:
 
 ```text
 Capability Hub
