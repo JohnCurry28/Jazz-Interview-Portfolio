@@ -1,0 +1,18 @@
+{
+  "document_id": "KB-CRM-002",
+  "title": "Synthetic CRM Workflow Guide",
+  "version": "2.1",
+  "allowed_roles": ["sales_rep", "manager", "admin"],
+  "sections": [
+    {
+      "heading": "Account record validation",
+      "tags": ["crm", "account", "record", "validation"],
+      "text": "Before advancing a CRM workflow, confirm that the account record contains the required account identifier, current owner, permitted contact attributes, and workflow status. If a required field is missing, do not invent or infer the value; route the record through the approved correction process."
+    },
+    {
+      "heading": "Workflow escalation",
+      "tags": ["crm", "manager escalation", "workflow", "escalation"],
+      "text": "Escalate a CRM workflow issue when the record cannot be corrected using the documented user steps, when ownership is disputed, or when the requested action exceeds the user's role permissions."
+    }
+  ]
+}
