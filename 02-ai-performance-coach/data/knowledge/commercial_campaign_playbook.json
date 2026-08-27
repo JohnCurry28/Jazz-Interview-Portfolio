@@ -1,0 +1,23 @@
+{
+  "document_id": "KB-CAMPAIGN-001",
+  "title": "Synthetic Omnichannel Campaign Readiness Playbook",
+  "version": "1.3",
+  "allowed_roles": ["sales_rep", "manager", "marketing", "admin"],
+  "sections": [
+    {
+      "heading": "Pre-launch readiness",
+      "tags": ["omnichannel campaign", "launch", "readiness", "approval"],
+      "text": "Before an omnichannel campaign is launched, the owner verifies the approved audience, current content version, required channel approvals, tracking configuration, and handoff owner. A campaign should not move to launch while a required approval is unresolved."
+    },
+    {
+      "heading": "Approved content",
+      "tags": ["approved content", "content", "version", "governance"],
+      "text": "Only content marked Approved and within its active review period may be selected for the synthetic campaign workflow. Draft, expired, or retired assets must be removed from the launch package and routed to the content owner."
+    },
+    {
+      "heading": "Escalation",
+      "tags": ["manager escalation", "escalation", "issue"],
+      "text": "If a required approval, data dependency, or system validation cannot be resolved within the user's assigned authority, the user pauses the launch and escalates to the campaign owner or designated operations partner."
+    }
+  ]
+}
