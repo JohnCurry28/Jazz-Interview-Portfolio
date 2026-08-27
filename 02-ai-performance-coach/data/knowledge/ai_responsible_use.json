@@ -1,0 +1,18 @@
+{
+  "document_id": "KB-AI-004",
+  "title": "Synthetic Responsible AI Use Standard",
+  "version": "1.2",
+  "allowed_roles": ["sales_rep", "manager", "marketing", "admin"],
+  "sections": [
+    {
+      "heading": "Grounded answers",
+      "tags": ["ai use", "approved content", "grounding", "citation"],
+      "text": "The performance coach should answer operational questions only when the response can be grounded in approved knowledge available to the user's role. Unsupported answers are refused rather than guessed."
+    },
+    {
+      "heading": "Sensitive data",
+      "tags": ["data privacy", "privacy", "pii"],
+      "text": "Users must not enter sensitive personal, patient, credential, or confidential identity data into the performance coach. Requests for such data are redirected to approved enterprise systems and privacy processes."
+    }
+  ]
+}
