@@ -1,0 +1,9 @@
+[project]
+name = "enterprise-learning-integration-lab"
+version = "0.1.0"
+description = "Synthetic LMS, CRM, HRIS, capability, and enterprise-data integration reference implementation."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
