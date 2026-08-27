@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enterprise Learning Integration Lab</title>
+  <style>
+    :root { --bg:#07111f; --panel:#0d1b2a; --panel2:#12263a; --line:#29435c; --text:#edf6ff; --muted:#9db0c5; --accent:#4dc3ff; --ok:#58d68d; --warn:#f4d03f; --bad:#ff6b6b; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:linear-gradient(180deg,#07111f,#0a1727); color:var(--text); }
+    header { padding:28px 34px 18px; border-bottom:1px solid var(--line); background:rgba(7,17,31,.96); position:sticky; top:0; z-index:10; }
+    h1 { margin:0 0 7px; font-size:28px; }
+    header p { margin:0; color:var(--muted); max-width:1000px; }
+    main { max-width:1500px; margin:auto; padding:24px; }
+    .grid { display:grid; gap:16px; }
+    .metrics { grid-template-columns:repeat(6,minmax(130px,1fr)); }
+    .two { grid-template-columns:1.1fr .9fr; margin-top:16px; }
+    .card { background:rgba(13,27,42,.96); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:0 12px 30px rgba(0,0,0,.18); }
+    .metric strong { display:block; font-size:28px; margin-top:4px; }
+    .metric span,.small { color:var(--muted); font-size:13px; }
+    .systems { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; align-items:center; }
+    .system { text-align:center; padding:14px 8px; background:var(--panel2); border:1px solid var(--line); border-radius:12px; min-height:82px; }
+    .system b { display:block; margin-bottom:6px; }
+    button { border:1px solid #3f647f; background:#123451; color:white; border-radius:10px; padding:10px 13px; cursor:pointer; margin:4px; font-weight:600; }
+    button:hover { background:#174564; }
+    button.danger { border-color:#7a3a3a; background:#4b2020; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th,td { text-align:left; border-bottom:1px solid #20384d; padding:9px 8px; vertical-align:top; }
+    th { color:#b9cce0; font-weight:600; }
+    code { color:#9de3ff; }
+    .status { font-size:11px; font-weight:800; padding:3px 7px; border-radius:999px; display:inline-block; }
+    .SUCCESS,.PROCESSED { background:#143b2a; color:#7bf0ad; }
+    .FAILED,.DEAD_LETTERED { background:#4a2026; color:#ff9ea7; }
+    .PROCESSING { background:#4b431a; color:#ffe276; }
+    .timeline { display:flex; flex-direction:column; gap:8px; max-height:430px; overflow:auto; }
+    .step { border-left:3px solid var(--accent); padding:8px 10px; background:#0a1928; border-radius:0 10px 10px 0; }
+    .step.bad { border-left-color:var(--bad); }
+    .step .meta { color:var(--muted); font-size:12px; margin-top:4px; }
+    .scroll { overflow:auto; max-height:470px; }
+    .banner { margin-top:12px; color:#b8cbe0; font-size:13px; }
+    .sor { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .sor div { background:#0a1928; padding:10px; border-radius:10px; border:1px solid #20384d; }
+    @media(max-width:1050px){ .metrics{grid-template-columns:repeat(3,1fr)} .two{grid-template-columns:1fr} .systems{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Enterprise Learning Integration Lab</h1>
+  <p>Reference implementation showing how HRIS, LMS, capability, CRM, and enterprise-data systems exchange governed events with contracts, idempotency, retries, correlation IDs, dead-letter handling, and lineage.</p>
+</header>
+<main>
+  <section class="grid metrics" id="metrics"></section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>Cross-system flow</h2>
+    <div class="systems">
+      <div class="system"><b>HRIS</b><span class="small">Identity + Role<br>System of record</span></div>
+      <div class="system"><b>LMS</b><span class="small">Assignments + Completion<br>Learning record</span></div>
+      <div class="system"><b>Capability</b><span class="small">Mastery + Evidence<br>Capability record</span></div>
+      <div class="system"><b>CRM</b><span class="small">Workflow Adoption<br>Operational signal</span></div>
+      <div class="system"><b>Data Platform</b><span class="small">Cross-system Analytics<br>Reporting layer</span></div>
+    </div>
+    <div style="margin-top:14px">
+      <button onclick="scenario('happy-path')">Run Happy Path</button>
+      <button onclick="scenario('duplicate')">Show Idempotency</button>
+      <button onclick="scenario('retry-success')">Show Retry Recovery</button>
+      <button onclick="scenario('dead-letter')">Show Dead Letter</button>
+      <button class="danger" onclick="resetLab()">Reset Lab</button>
+      <a href="/docs" target="_blank"><button>Open Swagger</button></a>
+    </div>
+    <div class="banner" id="message">Run a scenario to generate synthetic integration traffic.</div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>Event stream</h2>
+      <div class="scroll"><table><thead><tr><th>Event</th><th>Source</th><th>Status</th><th>Correlation</th></tr></thead><tbody id="events"></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>System-of-record boundaries</h2>
+      <div class="sor" id="sor"></div>
+      <h2 style="margin-top:20px">Selected lineage</h2>
+      <div class="timeline" id="lineage"><div class="small">No lineage selected.</div></div>
+    </div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>Delivery attempts</h2>
+      <div class="scroll"><table><thead><tr><th>Destination</th><th>Attempt</th><th>Status</th><th>Error</th></tr></thead><tbody id="deliveries"></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Dead-letter queue</h2>
+      <div class="scroll"><table><thead><tr><th>Event</th><th>Destination</th><th>Reason</th><th>Correlation</th></tr></thead><tbody id="dlq"></tbody></table></div>
+    </div>
+  </section>
+</main>
+<script>
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const short = s => s ? s.slice(0,8) : '';
+async function getJSON(url, opts){ const r=await fetch(url,opts); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+async function refresh(){
+  const [m,e,d,q,sor] = await Promise.all([getJSON('/api/metrics'),getJSON('/api/events'),getJSON('/api/deliveries'),getJSON('/api/dead-letters'),getJSON('/api/system-of-record')]);
+  const defs=[['Events',m.events],['Deliveries',m.deliveries],['Success rate',m.delivery_success_rate+'%'],['Retries',m.retry_attempts],['Dead letters',m.dead_letters],['Idempotency keys',m.unique_idempotency_keys]];
+  document.getElementById('metrics').innerHTML=defs.map(x=>`<div class="card metric"><span>${esc(x[0])}</span><strong>${esc(x[1])}</strong></div>`).join('');
+  document.getElementById('events').innerHTML=e.map(x=>`<tr onclick="loadLineage('${esc(x.correlation_id)}')" style="cursor:pointer"><td><b>${esc(x.event_type)}</b><br><span class="small">${esc(x.subject_id)}</span></td><td>${esc(x.source_system)}</td><td><span class="status ${esc(x.processing_status)}">${esc(x.processing_status)}</span></td><td><code>${short(x.correlation_id)}</code></td></tr>`).join('') || '<tr><td colspan="4" class="small">No events.</td></tr>';
+  document.getElementById('deliveries').innerHTML=d.map(x=>`<tr><td>${esc(x.destination_system)}</td><td>${x.attempt}</td><td><span class="status ${esc(x.status)}">${esc(x.status)}</span></td><td>${esc(x.error_message||'')}</td></tr>`).join('') || '<tr><td colspan="4" class="small">No deliveries.</td></tr>';
+  document.getElementById('dlq').innerHTML=q.map(x=>`<tr><td><code>${short(x.event_id)}</code></td><td>${esc(x.destination_system)}</td><td>${esc(x.reason)}</td><td><code>${short(x.correlation_id)}</code></td></tr>`).join('') || '<tr><td colspan="4" class="small">Dead-letter queue is empty.</td></tr>';
+  document.getElementById('sor').innerHTML=Object.entries(sor).map(([k,v])=>`<div><span class="small">${esc(k.replaceAll('_',' '))}</span><br><b>${esc(v)}</b></div>`).join('');
+}
+async function scenario(name){
+  const r=await getJSON('/api/demo/scenarios/'+name,{method:'POST'});
+  document.getElementById('message').innerHTML=`<b>${esc(name)}</b>: ${r.events_created} event(s), ${r.deliveries} delivery attempt(s), ${r.dlq_count} dead-letter(s). Correlation: <code>${esc(r.correlation_id)}</code>`;
+  await refresh(); await loadLineage(r.correlation_id);
+}
+async function resetLab(){ await getJSON('/api/demo/reset',{method:'POST'}); document.getElementById('message').textContent='Lab reset.'; document.getElementById('lineage').innerHTML='<div class="small">No lineage selected.</div>'; await refresh(); }
+async function loadLineage(id){
+  const x=await getJSON('/api/lineage/'+id); const steps=[];
+  x.events.forEach(e=>steps.push({bad:e.processing_status==='DEAD_LETTERED', title:e.event_type, meta:`${e.source_system} • ${e.processing_status} • event ${short(e.event_id)}`}));
+  x.deliveries.forEach(d=>steps.push({bad:d.status==='FAILED', title:`Delivery → ${d.destination_system}`, meta:`Attempt ${d.attempt} • ${d.status}${d.error_message?' • '+d.error_message:''}`}));
+  x.dead_letters.forEach(q=>steps.push({bad:true,title:`Dead Letter → ${q.destination_system}`,meta:q.reason}));
+  document.getElementById('lineage').innerHTML=steps.map(s=>`<div class="step ${s.bad?'bad':''}"><b>${esc(s.title)}</b><div class="meta">${esc(s.meta)}</div></div>`).join('');
+}
+refresh();
+</script>
+</body>
+</html>
