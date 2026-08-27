@@ -19,10 +19,11 @@ The portfolio makes several technical questions inspectable through working code
 - How should retries, duplicates, schema changes, failures, and dead letters be handled?
 - How should enterprise AI be grounded, authorized, evaluated, and monitored?
 - How should learning effectiveness be measured beyond completion?
+- How can assessment evidence be connected to capability and operational adoption without overstating causality?
 - How should content be versioned, governed, reviewed, reused, and retired?
 - How should a learning-technology capability be operated as a product?
 
-The goal is not to reproduce any company's internal platform. The goal is to make architecture, engineering, product, data, AI, and governance thinking visible.
+The goal is not to reproduce any company's internal platform. The goal is to make architecture, engineering, product, data, AI, analytics, and governance thinking visible.
 
 ---
 
@@ -88,21 +89,7 @@ ENTERPRISE LEARNING CAPABILITY OS
 
 **Status:** Implemented MVP
 
-A working FastAPI application demonstrating:
-
-- role-based capability pathways
-- onboarding progress
-- capability mastery
-- evidence counts
-- adoption analytics
-- manager readiness
-- reusable learning assets
-- learning-asset governance
-- lifecycle/version metadata
-- API-backed UI
-- integration-event monitoring
-- synthetic enterprise learning data
-- automated API tests
+A working FastAPI application demonstrating role-based capability pathways, onboarding progress, capability mastery, evidence counts, adoption analytics, manager readiness, reusable learning assets, governance, API-backed UI, integration-event monitoring, and automated tests.
 
 Core model:
 
@@ -118,24 +105,7 @@ Documentation: `01-global-learning-capability-hub/README.md`
 
 **Status:** Implemented MVP
 
-A working enterprise performance-support reference implementation demonstrating:
-
-- role-aware knowledge access
-- authorization before retrieval
-- approved-source grounding
-- versioned citations
-- transparent retrieval relevance
-- evidence threshold
-- unsupported-answer refusal
-- prompt-injection blocking
-- sensitive-data request blocking
-- `ANSWERED` / `REFUSED` / `BLOCKED` response states
-- deterministic grounded synthesis
-- provider-independent AI boundary
-- audit logging
-- human-escalation concepts
-- AI evaluation strategy
-- automated safety and behavior regression tests
+A working enterprise performance-support reference implementation demonstrating role-aware knowledge access, authorization before retrieval, approved-source grounding, citations, evidence thresholds, refusal, prompt-injection blocking, sensitive-data blocking, audit logging, AI evaluation, and regression tests.
 
 Core control flow:
 
@@ -172,29 +142,7 @@ Documentation:
 
 **Status:** Implemented MVP
 
-A working FastAPI integration reference implementation demonstrating:
-
-- explicit system-of-record boundaries
-- HRIS provisioning and role ownership
-- LMS assignment and completion events
-- capability-update events
-- CRM adoption events
-- enterprise-data refresh flow
-- versioned event envelopes
-- contract validation
-- schema-version rejection
-- explicit event routing
-- idempotency keys and duplicate suppression
-- correlation IDs
-- bounded retry behavior
-- transient failure recovery
-- permanent failure handling
-- dead-letter queue
-- delivery attempt history
-- event lineage
-- monitoring dashboard
-- Swagger/OpenAPI contracts
-- automated failure-path and integration tests
+A working FastAPI integration reference implementation demonstrating explicit system-of-record boundaries, HRIS provisioning, LMS assignment/completion events, capability updates, CRM adoption events, enterprise-data refresh, versioned event envelopes, contract validation, schema rejection, idempotency, correlation IDs, retries, transient recovery, permanent failure handling, dead-letter queues, delivery history, event lineage, and automated integration tests.
 
 Core reliability model:
 
@@ -214,16 +162,6 @@ Delivery Attempt
                     └── exhausted → DEAD_LETTERED
 ```
 
-System ownership model:
-
-```text
-HRIS           → identity + role
-LMS            → assignment + completion
-Capability     → mastery
-CRM            → operational adoption
-Data Platform  → cross-system analytics
-```
-
 Documentation:
 
 - `03-lms-crm-data-integration/README.md`
@@ -233,21 +171,55 @@ Documentation:
 
 ---
 
-### 04 — Assessment Intelligence
+### 04 — Enterprise Assessment Intelligence
 
-**Status:** Planned adaptation of existing assessment-analytics work
+**Status:** Implemented MVP
 
-Target capabilities:
+A working assessment-to-capability analytics reference implementation demonstrating:
 
+- deterministic synthetic learner data
+- 96 synthetic employees
+- four role cohorts
+- four enterprise capabilities
+- 12 capability-mapped assessment items
 - item difficulty
-- discrimination
-- reliability
+- upper/lower 27% discrimination
 - item-rest correlation
-- capability mapping
-- mastery signals
-- cohort comparison
-- completion vs. mastery vs. adoption analysis
-- actionable item and curriculum recommendations
+- KR-20 reliability
+- transparent item-review rules
+- capability mastery
+- role cohort comparison
+- high-completion transfer-gap detection
+- CRM/workflow adoption signals
+- downstream business-outcome signals
+- descriptive correlations
+- system-of-record lineage
+- FastAPI/Swagger endpoints
+- interactive dashboard
+- automated regression tests
+
+Core evidence model:
+
+```text
+Completion
+    ↓
+Assessment Evidence
+    ↓
+Capability Mastery
+    ↓
+Operational Adoption
+    ↓
+Business Insight
+```
+
+The demo deliberately contains a flawed item (`Q09`) so the psychometric engine has real evidence to flag rather than presenting an unrealistically perfect synthetic assessment.
+
+Documentation:
+
+- `04-assessment-intelligence/README.md`
+- `04-assessment-intelligence/ARCHITECTURE.md`
+- `04-assessment-intelligence/METRICS.md`
+- `04-assessment-intelligence/DEMO_WALKTHROUGH.md`
 
 ---
 
@@ -255,19 +227,7 @@ Target capabilities:
 
 **Status:** Planned
 
-Target capabilities:
-
-- metadata validation
-- ownership validation
-- source validation
-- version check
-- review-date check
-- accessibility review support
-- lifecycle-state recommendation
-- duplicate/reuse detection
-- retirement candidate identification
-- human approval boundary
-- audit history
+Target capabilities include metadata validation, ownership validation, source validation, version/review-date checks, accessibility review support, lifecycle-state recommendation, duplicate/reuse detection, retirement candidates, human approval boundaries, and audit history.
 
 ---
 
@@ -275,19 +235,7 @@ Target capabilities:
 
 **Status:** Planned
 
-Target capabilities:
-
-- product roadmap
-- backlog
-- architecture decisions
-- technical debt
-- vendor dependencies
-- release status
-- incident/risk tracking
-- integration health
-- SLOs
-- adoption KPIs
-- platform-health indicators
+Target capabilities include product roadmap, backlog, architecture decisions, technical debt, vendor dependencies, release status, incident/risk tracking, integration health, SLOs, adoption KPIs, and platform-health indicators.
 
 ---
 
@@ -319,20 +267,27 @@ Jazz-Interview-Portfolio/
 │   ├── pyproject.toml
 │   └── requirements.txt
 │
-└── 03-lms-crm-data-integration/
+├── 03-lms-crm-data-integration/
+│   ├── app/
+│   ├── tests/
+│   ├── ARCHITECTURE.md
+│   ├── DEMO_WALKTHROUGH.md
+│   ├── EVENT_CATALOG.md
+│   ├── README.md
+│   ├── pyproject.toml
+│   └── requirements.txt
+│
+└── 04-assessment-intelligence/
     ├── app/
     │   ├── __init__.py
-    │   ├── contracts.py
-    │   ├── db.py
+    │   ├── analytics.py
+    │   ├── data.py
     │   ├── main.py
-    │   ├── models.py
-    │   ├── processor.py
-    │   ├── scenarios.py
     │   └── static/index.html
     ├── tests/test_api.py
     ├── ARCHITECTURE.md
     ├── DEMO_WALKTHROUGH.md
-    ├── EVENT_CATALOG.md
+    ├── METRICS.md
     ├── README.md
     ├── pyproject.toml
     └── requirements.txt
@@ -364,17 +319,17 @@ Jazz-Interview-Portfolio/
 - idempotency
 - dead-letter handling
 - data lineage
-- production broker evolution
 
-### Data architecture
+### Data and analytics architecture
 
-- relational modeling
+- relational/domain modeling
 - role/capability relationships
+- psychometric evidence
 - operational learning data
 - CRM adoption signals
+- business-outcome signals
 - event persistence
-- delivery-attempt history
-- analytical data boundaries
+- cross-system analytical boundaries
 
 ### AI / RAG
 
@@ -396,7 +351,8 @@ Jazz-Interview-Portfolio/
 - review dates
 - accessibility
 - enterprise AI governance
-- integration contract governance
+- integration-contract governance
+- assessment-review governance
 
 ### Product operations
 
@@ -413,59 +369,43 @@ Jazz-Interview-Portfolio/
 ## 6. Engineering Principles
 
 ### Model the business problem before choosing the platform
-
-Technology should follow the capability and workflow requirements rather than forcing every problem into one system.
+Technology should follow capability and workflow requirements rather than forcing every problem into one system.
 
 ### Completion is not the final outcome
-
 Learning completion is useful operational data, but capability, adoption, performance, and business outcomes require additional evidence.
 
-### Systems should have explicit boundaries
+### Assessment is evidence, not truth
+Item statistics and scores support decisions but do not replace validity evidence, SME judgment, governance, or operational observation.
 
+### Systems should have explicit boundaries
 HRIS, LMS, capability, CRM, content, analytics, and AI services should not be treated as one undifferentiated platform.
 
 ### Integration does not redefine ownership
-
-The integration layer transports governed facts. It does not become the authoritative source for identity, learning, mastery, or CRM adoption.
+The integration layer transports governed facts. It does not become the authoritative source for identity, learning, mastery, adoption, or business outcomes.
 
 ### APIs and events are contracts
-
 Enterprise integration requires ownership, schemas, compatibility, observability, retries, idempotency, and security—not only connectivity.
 
 ### Failure must be visible
-
 Retries, dead letters, correlation, and operator workflows are architectural requirements, not afterthoughts.
 
 ### Authorization exists outside the model
-
 AI instructions are not an access-control mechanism. Restricted content is filtered before retrieval and model context construction.
 
 ### Refusal is valid product behavior
-
 If approved evidence is insufficient, the AI system should abstain rather than generate a plausible unsupported answer.
 
-### Reference architecture is not production architecture
+### Correlation is not causation
+Cross-system analytics can reveal useful patterns without justifying causal claims the evidence does not support.
 
+### Reference architecture is not production architecture
 Each project documents what is simplified in the MVP and what would need to change for secure, scalable enterprise deployment.
 
 ---
 
 ## 7. Synthetic Data Policy
 
-All demonstrations use synthetic information.
-
-The repository intentionally excludes:
-
-- real employee data
-- patient data
-- customer data
-- clinical data
-- proprietary commercial data
-- internal company documents
-- confidential employer materials
-- credentials
-- production API keys
-- private endpoints
+All demonstrations use synthetic information. The repository intentionally excludes real employee data, patient data, customer data, clinical data, proprietary commercial data, confidential employer materials, credentials, production API keys, and private endpoints.
 
 Generic role names and commercial-learning scenarios are used only to make the architecture understandable.
 
@@ -475,27 +415,7 @@ Generic role names and commercial-learning scenarios are used only to make the a
 
 The demos are not presented as production-ready pharmaceutical systems.
 
-Production deployments may require:
-
-- SSO/OIDC
-- OAuth 2.x
-- RBAC/ABAC
-- API gateway
-- service-to-service identity
-- encryption in transit and at rest
-- secrets management
-- centralized observability
-- threat modeling
-- CI/CD quality gates
-- privacy and retention controls
-- validated content-governance workflows
-- incident response
-- environment separation
-- managed databases
-- backup/recovery
-- formal data contracts
-- schema compatibility controls
-- legal/compliance/privacy/security review
+Production deployments may require SSO/OIDC, OAuth, RBAC/ABAC, API gateway, service identity, encryption, secrets management, centralized observability, threat modeling, CI/CD gates, privacy/retention controls, incident response, environment separation, managed databases, backup/recovery, formal data contracts, schema compatibility controls, assessment governance, and legal/compliance/privacy/security review.
 
 Each demo README documents its specific production-hardening path.
 
@@ -505,28 +425,9 @@ Each demo README documents its specific production-hardening path.
 
 Every implemented module includes tests appropriate to its architecture.
 
-For deterministic applications:
+For deterministic applications this includes endpoint, validation, boundary, data-flow, failure-path, integration-contract, duplicate/idempotency, psychometric, and lineage tests where applicable.
 
-- endpoint tests
-- validation tests
-- boundary tests
-- data-flow tests
-- failure-path tests
-- integration-contract tests
-- duplicate/idempotency tests where relevant
-
-For AI/RAG applications:
-
-- retrieval relevance
-- authorization-boundary tests
-- groundedness
-- citation accuracy
-- unsupported-answer refusal accuracy
-- prompt-injection resistance
-- sensitive-data handling
-- conflict handling
-- knowledge freshness
-- continuous regression evaluation
+For AI/RAG applications this additionally includes retrieval relevance, authorization boundaries, groundedness, citation accuracy, unsupported-answer refusal, prompt-injection resistance, sensitive-data handling, conflict handling, knowledge freshness, and continuous regression evaluation.
 
 The goal is to demonstrate that testing and evaluation are part of engineering, not a demo afterthought.
 
@@ -536,69 +437,28 @@ The goal is to demonstrate that testing and evaluation are part of engineering, 
 
 Each implemented demo follows the same detailed, production-style documentation standard used for the NASDAQ Agent V2 project.
 
-README coverage should include:
-
-1. executive summary
-2. business/capability problem
-3. project thesis
-4. current status
-5. supported and prohibited use
-6. implemented features
-7. architecture
-8. runtime/data flow
-9. repository structure
-10. technology stack
-11. data model
-12. API/event/tool contracts
-13. setup
-14. environment/configuration
-15. run instructions
-16. reset/seed behavior
-17. tests
-18. evaluation strategy
-19. security/privacy
-20. observability
-21. production hardening
-22. accessibility where relevant
-23. known limitations
-24. troubleshooting
-25. interview demo walkthrough
-26. architecture-defense questions
-27. roadmap
-28. ownership/review
-29. disclaimer
-
-The intention is for the repository to be understandable to a hiring manager or technical reviewer without requiring a live explanation from the author.
+README coverage includes executive summary, business/capability problem, thesis, status, supported/prohibited use, features, architecture, data flow, repository structure, technology stack, data model, API/event contracts, setup, configuration, run instructions, tests, evaluation strategy, security/privacy, observability, production hardening, accessibility, known limitations, troubleshooting, interview walkthrough, architecture-defense questions, roadmap, ownership, and disclaimer.
 
 ---
 
 ## 11. Running the Implemented Demos
 
-### Demo 01
+Each implemented project follows the same basic pattern:
 
 ```bash
-cd 01-global-learning-capability-hub
+cd <demo-folder>
 python -m venv .venv
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-### Demo 02
+Implemented folders:
 
-```bash
-cd 02-ai-performance-coach
-python -m venv .venv
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-### Demo 03
-
-```bash
-cd 03-lms-crm-data-integration
-python -m venv .venv
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+```text
+01-global-learning-capability-hub
+02-ai-performance-coach
+03-lms-crm-data-integration
+04-assessment-intelligence
 ```
 
 For each demo:
@@ -607,13 +467,11 @@ For each demo:
 - Swagger: `http://127.0.0.1:8000/docs`
 - Tests: `pytest -q`
 
-Use each demo's README for complete setup, architecture, API, testing, troubleshooting, and interview guidance.
+Use each demo's README for complete setup, architecture, testing, troubleshooting, and interview guidance.
 
 ---
 
 ## 12. Portfolio Development Approach
-
-The modules are being added incrementally rather than built as disconnected proof-of-concepts.
 
 ```text
 Capability Hub
@@ -631,18 +489,7 @@ Product Operations Dashboard
 Integrated Enterprise Learning Capability OS
 ```
 
-This lets later demos reuse concepts such as:
-
-- user identity
-- roles
-- capabilities
-- learning assets
-- evidence
-- adoption
-- integration events
-- governance metadata
-- analytics
-- AI evaluation
+Later demos reuse concepts such as identity, roles, capabilities, learning assets, evidence, adoption, integration events, governance metadata, analytics, and AI evaluation.
 
 ---
 
@@ -650,7 +497,7 @@ This lets later demos reuse concepts such as:
 
 The portfolio supports one central technical-lead message:
 
-> Modern enterprise L&D is not simply a collection of courses inside an LMS. It is a product ecosystem connecting role requirements, capability, learning, evidence, adoption, enterprise systems, data, governance, reliability, and increasingly AI.
+> Modern enterprise L&D is not simply a collection of courses inside an LMS. It is a product ecosystem connecting role requirements, capability, learning, evidence, adoption, enterprise systems, data, governance, reliability, analytics, and increasingly AI.
 
 The code exists to make that thinking inspectable.
 
@@ -670,4 +517,4 @@ This repository is an independent portfolio project.
 
 It is not affiliated with, endorsed by, sponsored by, or an internal product of Jazz Pharmaceuticals or any other pharmaceutical company.
 
-All names, roles, metrics, content, capability scores, events, and system interactions used in the demos are synthetic.
+All names, roles, metrics, content, capability scores, events, assessments, and system interactions used in the demos are synthetic.
