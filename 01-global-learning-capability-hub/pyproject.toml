@@ -1,0 +1,9 @@
+[project]
+name = "global-learning-capability-hub"
+version = "0.1.0"
+description = "Synthetic enterprise learning capability reference implementation"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
