@@ -1,6 +1,6 @@
 # Jazz Interview Portfolio
 
-A portfolio of working enterprise learning-technology reference implementations designed to demonstrate technical leadership across **learning architecture, AI, RAG, APIs, integrations, analytics, governance, capability development, and product operations**.
+A portfolio of working enterprise learning-technology reference implementations designed to demonstrate technical leadership across **learning architecture, AI/RAG, APIs, integrations, analytics, assessment intelligence, content governance, capability development, and product operations**.
 
 > **Important:** This repository uses synthetic data and generic biopharma/commercial scenarios. It is an independent portfolio project and is **not affiliated with, sponsored by, endorsed by, or an internal system of Jazz Pharmaceuticals**. No proprietary, confidential, patient, employee, customer, partner, or regulated company data is included.
 
@@ -10,26 +10,27 @@ A portfolio of working enterprise learning-technology reference implementations 
 
 This repository demonstrates how a senior learning-technology / technical L&D leader can treat enterprise learning as a connected product ecosystem rather than a collection of isolated courses.
 
-The portfolio makes several technical questions inspectable through working code:
+The portfolio makes the technical questions underneath modern enterprise L&D inspectable through working code:
 
 - How should roles map to capabilities, learning, evidence, and adoption?
-- How should the LMS interact with HRIS, CRM, enterprise-data, and AI services?
+- How should an LMS interact with HRIS, CRM, enterprise data, content repositories, and AI services?
 - How should systems of record be separated from integration mechanisms?
 - How should APIs and events be governed as contracts?
 - How should retries, duplicates, schema changes, failures, and dead letters be handled?
 - How should enterprise AI be grounded, authorized, evaluated, and monitored?
 - How should learning effectiveness be measured beyond completion?
-- How can assessment evidence be connected to capability and operational adoption without overstating causality?
-- How should content be versioned, governed, reviewed, reused, and retired?
-- How should a learning-technology capability be operated as a product?
+- How should psychometric evidence connect to capability and operational adoption without overstating causality?
+- How should content be owned, versioned, reviewed, made accessible, reused, approved, monitored, and retired?
+- Where should automated intelligence stop and accountable human governance begin?
+- How should the overall learning-technology capability be operated as a product?
 
-The goal is not to reproduce any company's internal platform. The goal is to make architecture, engineering, product, data, AI, analytics, and governance thinking visible.
+The goal is not to reproduce any company's internal platform. The goal is to make architecture, engineering, product, data, analytics, AI, reliability, and governance thinking visible.
 
 ---
 
-## 2. Portfolio Architecture
+## 2. Enterprise Learning Capability OS
 
-The six projects are designed to converge into one **Enterprise Learning Capability OS**.
+The six projects are designed to converge into one coherent reference architecture.
 
 ```text
 ENTERPRISE LEARNING CAPABILITY OS
@@ -66,10 +67,12 @@ ENTERPRISE LEARNING CAPABILITY OS
 │   └── Enterprise Data / BI
 │
 ├── Governance
-│   ├── Content Lifecycle
+│   ├── Content Ownership
+│   ├── Source Authority
 │   ├── Versioning
 │   ├── Review / Approval
 │   ├── Accessibility
+│   ├── Duplicate / Reuse Intelligence
 │   └── AI Governance
 │
 └── Product Operations
@@ -83,13 +86,34 @@ ENTERPRISE LEARNING CAPABILITY OS
 
 ---
 
-## 3. Portfolio Roadmap
+## 3. Current Portfolio Status
 
-### 01 — Global Learning Capability Hub
+| # | Demo | Status | Primary Technical Story |
+|---|---|---|---|
+| 01 | Global Learning Capability Hub | **Implemented MVP** | Role → capability → learning → evidence → adoption |
+| 02 | Enterprise AI Performance Coach / RAG | **Implemented MVP** | Authorized retrieval, grounding, refusal, citations, auditability |
+| 03 | LMS ↔ CRM ↔ Enterprise Data Integration Lab | **Implemented MVP** | Contracts, system-of-record boundaries, idempotency, retries, DLQ, lineage |
+| 04 | Enterprise Assessment Intelligence | **Implemented MVP** | Psychometrics → mastery → adoption → business insight |
+| 05 | Enterprise Content Governance Agent | **Implemented MVP** | Ownership, source, accessibility, review, duplicates, lifecycle, human authority |
+| 06 | Product Operations Dashboard | **Planned** | Roadmap, backlog, technical debt, dependencies, SLOs, platform health |
 
-**Status:** Implemented MVP
+---
 
-A working FastAPI application demonstrating role-based capability pathways, onboarding progress, capability mastery, evidence counts, adoption analytics, manager readiness, reusable learning assets, governance, API-backed UI, integration-event monitoring, and automated tests.
+## 4. Demo 01 — Global Learning Capability Hub
+
+A working FastAPI application demonstrating:
+
+- role-based capability pathways
+- onboarding progress
+- capability mastery
+- evidence counts
+- adoption analytics
+- manager readiness
+- reusable learning assets
+- governance metadata
+- API-backed UI
+- integration-event monitoring
+- automated API tests
 
 Core model:
 
@@ -101,11 +125,21 @@ Documentation: `01-global-learning-capability-hub/README.md`
 
 ---
 
-### 02 — Enterprise AI Performance Coach / RAG
+## 5. Demo 02 — Enterprise AI Performance Coach / RAG
 
-**Status:** Implemented MVP
+A working enterprise performance-support reference implementation demonstrating:
 
-A working enterprise performance-support reference implementation demonstrating role-aware knowledge access, authorization before retrieval, approved-source grounding, citations, evidence thresholds, refusal, prompt-injection blocking, sensitive-data blocking, audit logging, AI evaluation, and regression tests.
+- role-aware knowledge access
+- authorization before retrieval
+- approved-source grounding
+- citations and relevance evidence
+- unsupported-answer refusal
+- prompt-injection blocking
+- sensitive-data request blocking
+- `ANSWERED` / `REFUSED` / `BLOCKED` states
+- audit logging
+- evaluation strategy
+- deterministic interview behavior without external credentials
 
 Core control flow:
 
@@ -138,11 +172,28 @@ Documentation:
 
 ---
 
-### 03 — LMS ↔ CRM ↔ Enterprise Data Integration Lab
+## 6. Demo 03 — LMS ↔ CRM ↔ Enterprise Data Integration Lab
 
-**Status:** Implemented MVP
+A working FastAPI integration reference implementation demonstrating:
 
-A working FastAPI integration reference implementation demonstrating explicit system-of-record boundaries, HRIS provisioning, LMS assignment/completion events, capability updates, CRM adoption events, enterprise-data refresh, versioned event envelopes, contract validation, schema rejection, idempotency, correlation IDs, retries, transient recovery, permanent failure handling, dead-letter queues, delivery history, event lineage, and automated integration tests.
+- explicit system-of-record boundaries
+- HRIS provisioning
+- LMS assignment/completion events
+- capability updates
+- CRM adoption events
+- enterprise-data refresh
+- versioned event envelopes
+- contract validation
+- schema-version rejection
+- idempotency and duplicate suppression
+- correlation IDs
+- bounded retries
+- transient failure recovery
+- permanent failure handling
+- dead-letter queue
+- delivery-attempt history
+- event lineage
+- automated failure-path tests
 
 Core reliability model:
 
@@ -162,6 +213,16 @@ Delivery Attempt
                     └── exhausted → DEAD_LETTERED
 ```
 
+System ownership model:
+
+```text
+HRIS           → identity + role
+LMS            → assignment + completion
+Capability     → mastery
+CRM            → operational adoption
+Data Platform  → cross-system analytics
+```
+
 Documentation:
 
 - `03-lms-crm-data-integration/README.md`
@@ -171,31 +232,25 @@ Documentation:
 
 ---
 
-### 04 — Enterprise Assessment Intelligence
-
-**Status:** Implemented MVP
+## 7. Demo 04 — Enterprise Assessment Intelligence
 
 A working assessment-to-capability analytics reference implementation demonstrating:
 
-- deterministic synthetic learner data
-- 96 synthetic employees
-- four role cohorts
-- four enterprise capabilities
-- 12 capability-mapped assessment items
+- deterministic synthetic employee data
+- role cohorts
+- capability-mapped assessment items
 - item difficulty
-- upper/lower 27% discrimination
+- upper/lower discrimination
 - item-rest correlation
 - KR-20 reliability
 - transparent item-review rules
 - capability mastery
 - role cohort comparison
-- high-completion transfer-gap detection
+- transfer-gap detection
 - CRM/workflow adoption signals
 - downstream business-outcome signals
 - descriptive correlations
 - system-of-record lineage
-- FastAPI/Swagger endpoints
-- interactive dashboard
 - automated regression tests
 
 Core evidence model:
@@ -212,7 +267,7 @@ Operational Adoption
 Business Insight
 ```
 
-The demo deliberately contains a flawed item (`Q09`) so the psychometric engine has real evidence to flag rather than presenting an unrealistically perfect synthetic assessment.
+The demo deliberately contains a statistically problematic synthetic item so the analytics engine has meaningful evidence to flag rather than presenting an unrealistically perfect assessment.
 
 Documentation:
 
@@ -223,79 +278,123 @@ Documentation:
 
 ---
 
-### 05 — Content Governance Agent
+## 8. Demo 05 — Enterprise Content Governance Agent
 
-**Status:** Planned
+A working content-governance reference implementation demonstrating:
 
-Target capabilities include metadata validation, ownership validation, source validation, version/review-date checks, accessibility review support, lifecycle-state recommendation, duplicate/reuse detection, retirement candidates, human approval boundaries, and audit history.
+- governed content inventory
+- accountable ownership validation
+- approved source-authority validation
+- review-date controls
+- accessibility readiness checks
+- version metadata and version snapshots
+- deterministic duplicate/reuse similarity
+- governance score and risk classification
+- review queue
+- lifecycle recommendation
+- human approval boundary
+- publication gate
+- audit trail
+- interactive scenario dashboard
+- automated regression tests
 
----
-
-### 06 — Product Operations Dashboard
-
-**Status:** Planned
-
-Target capabilities include product roadmap, backlog, architecture decisions, technical debt, vendor dependencies, release status, incident/risk tracking, integration health, SLOs, adoption KPIs, and platform-health indicators.
-
----
-
-## 4. Current Repository Structure
+Core governance model:
 
 ```text
-Jazz-Interview-Portfolio/
-│
-├── README.md
-├── .gitignore
-│
-├── 01-global-learning-capability-hub/
-│   ├── app/
-│   ├── tests/
-│   ├── ARCHITECTURE.md
-│   ├── DEMO_WALKTHROUGH.md
-│   ├── README.md
-│   ├── pyproject.toml
-│   └── requirements.txt
-│
-├── 02-ai-performance-coach/
-│   ├── app/
-│   ├── data/knowledge/
-│   ├── tests/
-│   ├── ARCHITECTURE.md
-│   ├── DEMO_WALKTHROUGH.md
-│   ├── EVALUATION.md
-│   ├── README.md
-│   ├── pyproject.toml
-│   └── requirements.txt
-│
-├── 03-lms-crm-data-integration/
-│   ├── app/
-│   ├── tests/
-│   ├── ARCHITECTURE.md
-│   ├── DEMO_WALKTHROUGH.md
-│   ├── EVENT_CATALOG.md
-│   ├── README.md
-│   ├── pyproject.toml
-│   └── requirements.txt
-│
-└── 04-assessment-intelligence/
-    ├── app/
-    │   ├── __init__.py
-    │   ├── analytics.py
-    │   ├── data.py
-    │   ├── main.py
-    │   └── static/index.html
-    ├── tests/test_api.py
-    ├── ARCHITECTURE.md
-    ├── DEMO_WALKTHROUGH.md
-    ├── METRICS.md
-    ├── README.md
-    ├── pyproject.toml
-    └── requirements.txt
+Create
+  ↓
+Automated Inspection
+  ├── ownership
+  ├── source authority
+  ├── review date
+  ├── accessibility
+  ├── version
+  └── duplicate / reuse
+  ↓
+Risk + Recommendation
+  ↓
+Human Governance
+  ├── approve
+  ├── request changes
+  ├── reject
+  ├── publish
+  └── retire
+  ↓
+Monitor / Re-review
 ```
+
+The key architectural boundary is explicit:
+
+> **The agent may inspect, flag, score, and recommend. It cannot create organizational authority for itself.**
+
+This module also creates an important dependency for Demo 02: in a production ecosystem, only approved/governed content should become eligible for enterprise RAG retrieval.
+
+Documentation:
+
+- `05-content-governance-agent/README.md`
+- `05-content-governance-agent/ARCHITECTURE.md`
+- `05-content-governance-agent/GOVERNANCE_CONTROLS.md`
+- `05-content-governance-agent/DEMO_WALKTHROUGH.md`
 
 ---
 
-## 5. Technical Themes Demonstrated
+## 9. Demo 06 — Product Operations Dashboard
+
+**Status:** Planned
+
+Target capabilities:
+
+- product roadmap
+- prioritized backlog
+- architecture decision records
+- technical debt
+- vendor dependencies
+- release health
+- incident/risk tracking
+- integration health
+- SLOs / service health
+- adoption KPIs
+- governance backlog
+- platform-health indicators
+
+This final module is intended to make the operating model visible: enterprise learning technology is managed as a product, not merely delivered as projects.
+
+---
+
+## 10. How the Demos Connect
+
+The projects are intentionally not six unrelated proof-of-concepts.
+
+```text
+01 Capability Hub
+      │
+      ├───────────────┐
+      ▼               ▼
+02 AI Coach       04 Assessment Intelligence
+      ▲               │
+      │               ▼
+05 Content        Capability / Transfer Signals
+Governance            │
+      │               │
+      └───────┬───────┘
+              ▼
+03 Integration Layer
+              │
+              ▼
+06 Product Operations
+```
+
+Examples of cross-demo relationships:
+
+- Demo 05 determines which content is eligible for Demo 02 retrieval.
+- Demo 03 transports governed completion, capability, adoption, and governance events.
+- Demo 04 turns assessment evidence into capability and transfer signals.
+- Demo 01 presents those signals through learner/manager capability experiences.
+- Demo 06 will expose roadmap, operational health, governance backlog, dependencies, and technical debt across the ecosystem.
+
+---
+
+## 11. Technical Themes Demonstrated
 
 ### Enterprise learning architecture
 
@@ -323,12 +422,11 @@ Jazz-Interview-Portfolio/
 ### Data and analytics architecture
 
 - relational/domain modeling
-- role/capability relationships
 - psychometric evidence
+- capability mastery
 - operational learning data
 - CRM adoption signals
 - business-outcome signals
-- event persistence
 - cross-system analytical boundaries
 
 ### AI / RAG
@@ -336,23 +434,24 @@ Jazz-Interview-Portfolio/
 - retrieval grounding
 - approved-source boundaries
 - role-aware authorization
-- provider abstraction
 - refusal behavior
 - citations
 - prompt-injection testing
+- provider abstraction
 - auditability
 - evaluation design
 
-### Governance
+### Content governance
 
-- content versioning
-- lifecycle management
 - ownership
-- review dates
-- accessibility
-- enterprise AI governance
-- integration-contract governance
-- assessment-review governance
+- source authority
+- review cadence
+- accessibility readiness
+- versioning
+- duplicate/reuse detection
+- lifecycle management
+- human approval boundaries
+- audit history
 
 ### Product operations
 
@@ -366,7 +465,7 @@ Jazz-Interview-Portfolio/
 
 ---
 
-## 6. Engineering Principles
+## 12. Engineering Principles
 
 ### Model the business problem before choosing the platform
 Technology should follow capability and workflow requirements rather than forcing every problem into one system.
@@ -378,10 +477,10 @@ Learning completion is useful operational data, but capability, adoption, perfor
 Item statistics and scores support decisions but do not replace validity evidence, SME judgment, governance, or operational observation.
 
 ### Systems should have explicit boundaries
-HRIS, LMS, capability, CRM, content, analytics, and AI services should not be treated as one undifferentiated platform.
+HRIS, LMS, capability, CRM, content, analytics, governance, and AI services should not be treated as one undifferentiated platform.
 
 ### Integration does not redefine ownership
-The integration layer transports governed facts. It does not become the authoritative source for identity, learning, mastery, adoption, or business outcomes.
+The integration layer transports governed facts. It does not become the authoritative source for identity, learning, mastery, adoption, content, or business outcomes.
 
 ### APIs and events are contracts
 Enterprise integration requires ownership, schemas, compatibility, observability, retries, idempotency, and security—not only connectivity.
@@ -395,6 +494,9 @@ AI instructions are not an access-control mechanism. Restricted content is filte
 ### Refusal is valid product behavior
 If approved evidence is insufficient, the AI system should abstain rather than generate a plausible unsupported answer.
 
+### AI recommendation is not organizational authority
+Governed approval, publication, and retirement remain accountable business decisions.
+
 ### Correlation is not causation
 Cross-system analytics can reveal useful patterns without justifying causal claims the evidence does not support.
 
@@ -403,45 +505,133 @@ Each project documents what is simplified in the MVP and what would need to chan
 
 ---
 
-## 7. Synthetic Data Policy
+## 13. Synthetic Data Policy
 
-All demonstrations use synthetic information. The repository intentionally excludes real employee data, patient data, customer data, clinical data, proprietary commercial data, confidential employer materials, credentials, production API keys, and private endpoints.
+All demonstrations use synthetic information.
 
-Generic role names and commercial-learning scenarios are used only to make the architecture understandable.
+The repository intentionally excludes:
+
+- real employee data
+- patient data
+- customer data
+- clinical data
+- proprietary commercial data
+- internal company documents
+- confidential employer materials
+- credentials
+- production API keys
+- private endpoints
+
+Generic role names, content, metrics, dates, and commercial-learning scenarios are used only to make the architecture understandable.
 
 ---
 
-## 8. Security and Production Boundaries
+## 14. Security and Production Boundaries
 
 The demos are not presented as production-ready pharmaceutical systems.
 
-Production deployments may require SSO/OIDC, OAuth, RBAC/ABAC, API gateway, service identity, encryption, secrets management, centralized observability, threat modeling, CI/CD gates, privacy/retention controls, incident response, environment separation, managed databases, backup/recovery, formal data contracts, schema compatibility controls, assessment governance, and legal/compliance/privacy/security review.
+Production deployments may require:
+
+- SSO/OIDC
+- OAuth 2.x
+- RBAC/ABAC
+- API gateway
+- service identity
+- encryption in transit and at rest
+- secrets management
+- centralized observability
+- threat modeling
+- CI/CD quality gates
+- privacy and retention controls
+- validated content-governance workflows
+- immutable approval/audit evidence
+- incident response
+- environment separation
+- managed databases
+- backup/recovery
+- formal data contracts
+- schema compatibility controls
+- legal/compliance/privacy/security review
 
 Each demo README documents its specific production-hardening path.
 
 ---
 
-## 9. Testing and Evaluation Standard
+## 15. Testing and Evaluation Standard
 
 Every implemented module includes tests appropriate to its architecture.
 
-For deterministic applications this includes endpoint, validation, boundary, data-flow, failure-path, integration-contract, duplicate/idempotency, psychometric, and lineage tests where applicable.
+For deterministic applications this includes:
 
-For AI/RAG applications this additionally includes retrieval relevance, authorization boundaries, groundedness, citation accuracy, unsupported-answer refusal, prompt-injection resistance, sensitive-data handling, conflict handling, knowledge freshness, and continuous regression evaluation.
+- endpoint tests
+- validation tests
+- boundary tests
+- data-flow tests
+- failure-path tests
+- integration-contract tests
+- duplicate/idempotency tests
+- psychometric calculations
+- governance-control tests
+- authorization/authority boundary tests
+
+For AI/RAG applications this additionally includes:
+
+- retrieval relevance
+- authorization boundaries
+- groundedness
+- citation accuracy
+- unsupported-answer refusal
+- prompt-injection resistance
+- sensitive-data handling
+- conflict handling
+- knowledge freshness
+- continuous regression evaluation
 
 The goal is to demonstrate that testing and evaluation are part of engineering, not a demo afterthought.
 
 ---
 
-## 10. README Documentation Standard
+## 16. README Documentation Standard
 
 Each implemented demo follows the same detailed, production-style documentation standard used for the NASDAQ Agent V2 project.
 
-README coverage includes executive summary, business/capability problem, thesis, status, supported/prohibited use, features, architecture, data flow, repository structure, technology stack, data model, API/event contracts, setup, configuration, run instructions, tests, evaluation strategy, security/privacy, observability, production hardening, accessibility, known limitations, troubleshooting, interview walkthrough, architecture-defense questions, roadmap, ownership, and disclaimer.
+README coverage includes:
+
+1. executive summary
+2. business/capability problem
+3. project thesis
+4. current status
+5. supported/prohibited use
+6. implemented features
+7. architecture
+8. runtime/data flow
+9. repository structure
+10. technology stack
+11. data model
+12. API/event/tool contracts
+13. setup
+14. environment/configuration
+15. run instructions
+16. reset/seed behavior
+17. tests
+18. evaluation strategy
+19. security/privacy
+20. observability
+21. production hardening
+22. accessibility where relevant
+23. known limitations
+24. troubleshooting
+25. interview walkthrough
+26. architecture-defense questions
+27. roadmap
+28. ownership/review
+29. disclaimer
+
+The intention is for a hiring manager or technical reviewer to understand the architecture without requiring a live explanation from the author.
 
 ---
 
-## 11. Running the Implemented Demos
+## 17. Running the Implemented Demos
 
 Each implemented project follows the same basic pattern:
 
@@ -459,6 +649,7 @@ Implemented folders:
 02-ai-performance-coach
 03-lms-crm-data-integration
 04-assessment-intelligence
+05-content-governance-agent
 ```
 
 For each demo:
@@ -467,11 +658,11 @@ For each demo:
 - Swagger: `http://127.0.0.1:8000/docs`
 - Tests: `pytest -q`
 
-Use each demo's README for complete setup, architecture, testing, troubleshooting, and interview guidance.
+Use each demo's README for full setup, architecture, testing, troubleshooting, evaluation, and interview guidance.
 
 ---
 
-## 12. Portfolio Development Approach
+## 18. Portfolio Development Path
 
 ```text
 Capability Hub
@@ -489,21 +680,21 @@ Product Operations Dashboard
 Integrated Enterprise Learning Capability OS
 ```
 
-Later demos reuse concepts such as identity, roles, capabilities, learning assets, evidence, adoption, integration events, governance metadata, analytics, and AI evaluation.
+The codebase is intentionally evolving toward an integrated architecture rather than a collection of disconnected demos.
 
 ---
 
-## 13. Interview Positioning
+## 19. Interview Positioning
 
 The portfolio supports one central technical-lead message:
 
-> Modern enterprise L&D is not simply a collection of courses inside an LMS. It is a product ecosystem connecting role requirements, capability, learning, evidence, adoption, enterprise systems, data, governance, reliability, analytics, and increasingly AI.
+> **Modern enterprise L&D is not simply a collection of courses inside an LMS. It is a governed product ecosystem connecting role requirements, capability, learning, evidence, content, adoption, enterprise systems, data, reliability, analytics, governance, and increasingly AI.**
 
 The code exists to make that thinking inspectable.
 
 ---
 
-## 14. Project Owner
+## 20. Project Owner
 
 **John Curry**
 
@@ -511,10 +702,10 @@ Personal technical portfolio / interview reference implementation.
 
 ---
 
-## 15. Disclaimer
+## 21. Disclaimer
 
 This repository is an independent portfolio project.
 
 It is not affiliated with, endorsed by, sponsored by, or an internal product of Jazz Pharmaceuticals or any other pharmaceutical company.
 
-All names, roles, metrics, content, capability scores, events, assessments, and system interactions used in the demos are synthetic.
+All names, roles, metrics, content, capability scores, events, assessments, governance decisions, and system interactions used in the demos are synthetic.
