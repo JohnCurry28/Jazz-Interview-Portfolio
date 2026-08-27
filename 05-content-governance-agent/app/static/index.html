@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Enterprise Content Governance Agent</title>
+<style>
+:root{--bg:#f4f7fb;--ink:#17324d;--teal:#1f5f69;--muted:#657789;--line:#d9e2ec;--card:#fff;--good:#277a4b;--warn:#9a6700;--bad:#a43b3b}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#1f2933}.wrap{max-width:1220px;margin:auto;padding:26px}.hero{background:linear-gradient(135deg,#17324d,#1f5f69);color:#fff;padding:28px;border-radius:20px}.hero h1{margin:0 0 8px;font-family:Georgia,serif}.hero p{max-width:900px;line-height:1.55}.metrics{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:18px 0}.metric,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}.metric strong{display:block;font-size:1.8rem;color:var(--ink)}.metric span{color:var(--muted);font-size:.82rem}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.card h2{margin-top:0;color:var(--ink);font-family:Georgia,serif}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}button{border:0;background:var(--ink);color:#fff;border-radius:9px;padding:10px 13px;cursor:pointer}button.alt{background:var(--teal)}button.light{background:#e7eef5;color:var(--ink)}table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--ink);font-size:.8rem;text-transform:uppercase}.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:.75rem;font-weight:700}.LOW,.PASS{background:#e8f5ee;color:var(--good)}.MEDIUM,.WARN{background:#fff4d6;color:var(--warn)}.HIGH,.FAIL{background:#fbe9e9;color:var(--bad)}.detail{white-space:pre-wrap;line-height:1.45}.note{font-size:.85rem;color:var(--muted)}.lifecycle{display:flex;gap:7px;flex-wrap:wrap}.stage{padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;font-size:.78rem}.active{background:#dfeef0;border-color:#86afb5}.footer{margin:20px 0;color:var(--muted);font-size:.82rem}@media(max-width:900px){.metrics{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+  <h1>Enterprise Content Governance Agent</h1>
+  <p>AI-assisted governance for metadata, accessibility, ownership, review dates, duplication, lifecycle, and auditability—with human approval remaining authoritative.</p>
+</section>
+<div class="toolbar">
+  <button onclick="refresh()">Refresh Governance</button>
+  <button class="alt" onclick="showScenario(2)">Overdue Review</button>
+  <button class="alt" onclick="showScenario(3)">Accessibility Failure</button>
+  <button class="alt" onclick="showScenario(4)">Duplicate Candidate</button>
+  <button class="alt" onclick="showScenario(6)">High-Risk Legacy Asset</button>
+  <button class="light" onclick="resetDemo()">Reset Synthetic Data</button>
+</div>
+<div class="metrics" id="metrics"></div>
+<div class="grid">
+  <section class="card">
+    <h2>Governed Content Inventory</h2>
+    <table><thead><tr><th>Asset</th><th>State</th><th>Score</th><th>Risk</th><th>Review</th></tr></thead><tbody id="inventory"></tbody></table>
+  </section>
+  <section class="card">
+    <h2>Selected Asset</h2>
+    <div id="selected" class="detail">Select an asset from the inventory.</div>
+  </section>
+</div>
+<div class="grid" style="margin-top:16px">
+  <section class="card">
+    <h2>Review Queue</h2>
+    <div id="queue"></div>
+  </section>
+  <section class="card">
+    <h2>Duplicate / Reuse Intelligence</h2>
+    <div id="duplicates"></div>
+  </section>
+</div>
+<section class="card" style="margin-top:16px">
+  <h2>Governance Lifecycle</h2>
+  <div class="lifecycle" id="lifecycle"></div>
+  <p class="note">The agent can recommend lifecycle movement. APPROVE, PUBLISH, and RETIRE are human decisions exposed through separate review endpoints.</p>
+</section>
+<section class="card" style="margin-top:16px">
+  <h2>Recent Audit Events</h2>
+  <table><thead><tr><th>Time</th><th>Actor</th><th>Event</th><th>Detail</th></tr></thead><tbody id="audit"></tbody></table>
+</section>
+<p class="footer">Synthetic interview reference implementation. No proprietary, patient, employee, customer, or regulated company data is used.</p>
+</div>
+<script>
+let data; const stages=['DRAFT','TECHNICAL_REVIEW','CONTENT_OWNER_REVIEW','APPROVED','PUBLISHED','MONITORED','REVIEW_REQUIRED','RETIRED'];
+async function j(url,opt){const r=await fetch(url,opt);if(!r.ok)throw new Error(await r.text());return r.json()}
+function pill(v){return `<span class="pill ${v}">${v}</span>`}
+async function refresh(){data=await j('/api/dashboard'); render(); await loadAudit()}
+function render(){const s=data.summary;document.getElementById('metrics').innerHTML=[['Assets',s.content_assets],['Published',s.published],['Review Queue',s.review_queue],['High Risk',s.high_risk],['Duplicate Flags',s.duplicate_flags],['Avg. Score',s.average_governance_score]].map(x=>`<div class="metric"><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join('');
+ document.getElementById('inventory').innerHTML=data.items.map(x=>`<tr onclick="showItem(${x.item.id})" style="cursor:pointer"><td><strong>${x.item.title}</strong><br><span class="note">${x.item.content_type} · v${x.item.version}</span></td><td>${x.item.lifecycle_state}</td><td>${x.recommendation.governance_score}</td><td>${pill(x.recommendation.risk_level)}</td><td>${x.item.review_due_date}</td></tr>`).join('');
+ document.getElementById('queue').innerHTML=data.review_queue.length?data.review_queue.map(x=>`<p><strong>${x.item.title}</strong><br>${pill(x.recommendation.risk_level)} ${x.recommendation.reasons.join(' ')}</p>`).join(''):'<p>No items currently require review.</p>';
+ document.getElementById('duplicates').innerHTML=data.duplicates.length?data.duplicates.map(x=>`<p><strong>${x.item.title}</strong><br>Possible duplicate: ${x.duplicate.candidate_title}<br>Similarity: ${(x.duplicate.similarity*100).toFixed(1)}%</p>`).join(''):'<p>No material duplicate candidates detected.</p>';
+}
+function showItem(id){const x=data.items.find(v=>v.item.id===id);document.getElementById('selected').innerHTML=`<h3>${x.item.title}</h3><p><strong>Owner:</strong> ${x.item.owner||'<em>Missing</em>'}<br><strong>Source:</strong> ${x.item.source_authority}<br><strong>Current state:</strong> ${x.item.lifecycle_state}<br><strong>Agent proposal:</strong> ${x.recommendation.proposed_state}</p><h4>Checks</h4>${x.checks.map(c=>`<p>${pill(c.status)} <strong>${c.check_name}</strong><br>${c.detail}</p>`).join('')}<h4>Recommended actions</h4><ul>${x.recommendation.recommended_actions.map(a=>`<li>${a}</li>`).join('')}</ul><p class="note">${x.recommendation.agent_boundary}</p>`;document.getElementById('lifecycle').innerHTML=stages.map(s=>`<span class="stage ${s===x.item.lifecycle_state?'active':''}">${s}</span>`).join('')}
+function showScenario(id){showItem(id);window.scrollTo({top:250,behavior:'smooth'})}
+async function loadAudit(){const a=await j('/api/audit?limit=12');document.getElementById('audit').innerHTML=a.map(x=>`<tr><td>${x.created_at}</td><td>${x.actor}</td><td>${x.event_type}</td><td>${x.detail.slice(0,190)}</td></tr>`).join('')}
+async function resetDemo(){await j('/api/reset',{method:'POST'});await refresh()}
+refresh().then(()=>showItem(1));
+</script>
+</body>
+</html>
