@@ -1,0 +1,18 @@
+{
+  "document_id": "KB-MGR-003",
+  "title": "Synthetic Manager Operating Guide",
+  "version": "1.0",
+  "allowed_roles": ["manager", "admin"],
+  "sections": [
+    {
+      "heading": "Manager exception handling",
+      "tags": ["manager escalation", "exception", "coaching"],
+      "text": "Managers review exceptions that cannot be resolved by standard user workflow, confirm the business impact, identify the accountable system or process owner, and document the resolution path. Managers should avoid directing users to bypass system controls for speed."
+    },
+    {
+      "heading": "Team adoption review",
+      "tags": ["adoption", "capability", "manager"],
+      "text": "When completion is high but workflow adoption remains low, managers investigate capability, process friction, system usability, coaching needs, and role clarity before assigning additional learning."
+    }
+  ]
+}
